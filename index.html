@@ -1,19 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Forecast App</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  <head>
+    <!-- Meta tags -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- External CSS files -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Libre+Baskerville:wght@700&family=Oswald&family=Poppins:wght@300&family=Roboto:wght@300&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="container">
-        <h1>Weather Forecast App</h1>
-        <label for="cityInput">Enter City Name: </label>
-        <input type="text" id="cityInput" placeholder="Enter city Name">
-        <button onclick="getWeatherForecast()">Get Weather Forecast</button>
-        <div id="weatherInfo"></div>
+      <!-- Search box -->
+      <div class="searchbox">
+        <input type="text" placeholder="Enter city Name" id="searchinput" />
+        <i class="fa-solid fa-magnifying-glass" id="serchbox"></i>
+      </div>
+
+      <!-- Main body content -->
+      <div class="body" id="body_data">
+        <!-- Weather image -->
+        <img src="image/cloud.png" alt="" id="body_img" />
+        <!-- Temperature -->
+        <h2 id="temp">22</h2>
+        <!-- City name -->
+        <h3 id="city">New Yourk</h3>
+      </div>
+
+      <!-- Detailed weather information -->
+      <div class="deatil" id="deatil">
+        <!-- Humidity -->
+        <div class="col">
+          <i class="fa-solid fa-droplet"></i>
+          <div>
+            <h5 id="humidity">50%</h5>
+            <p>humidity</p>
+          </div>
+        </div>
+        <!-- Wind speed -->
+        <div class="col">
+          <i class="fa-solid fa-wind"></i>
+          <div>
+            <h5 id="windspeed">15 km/h</h5>
+            <p>wind speed</p>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- External JavaScript file -->
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
