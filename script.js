@@ -1,41 +1,53 @@
-function getWeatherForecast() {
-    const cityInput = document.getElementById('cityInput');
-    const weatherInfo = document.getElementById('weatherInfo');
+// Variables to store references to HTML elements
+var temp = document.getElementById("temp");
+var cityName = document.getElementById("city");
+var humidity = document.getElementById("humidity");
+var windspeed = document.getElementById("windspeed");
+var searchinput = document.getElementById("searchinput");
+var serchbox = document.getElementById("serchbox");
+var body_img = document.getElementById("body_img");
+var body_data = document.getElementById("body_data");
+var deatil = document.getElementById("deatil");
+var error = document.getElementById("error");
 
-    const cityId = cityInput.value;
+// Function to fetch weather data from OpenWeatherMap API
+async function checkWeather(city) {
+  // API key for OpenWeatherMap
+  let apiKey = "f27b269d54e4fa1e72993364a80fa8bd";
+  // Fetch weather data
+  let response = await fetch(
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+  );
+  let data = await response.json();
 
-    if (cityId.trim() === '') {
-        alert('Please enter a city ID');
-        return;
-    }
+  // Update HTML elements with weather data
+  temp.innerHTML = Math.floor(data.main.temp) + "°C";
+  cityName.innerHTML = data.name;
+  humidity.innerHTML = data.main.humidity + "%";
+  windspeed.innerHTML = data.wind.speed + "km/h";
 
-    const apiKey = '38364e6ec0a76d719307520b4f5f4198'; // Replace with your API key
-    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?id=${cityId}&appid=${apiKey}`;
+  // Set weather image based on weather condition
+  if (data.weather[0].main == "Clouds") {
+    body_img.src = "image/cloud.png";
+  } else if (data.weather[0].main == "Clear") {
+    body_img.src = "image/clear.png";
+  } else if (data.weather[0].main == "Rain") {
+    body_img.src = "image/rain.png";
+  } else if (data.weather[0].main == "Drizzle") {
+    body_img.src = "image/drizzle.png";
+  } else if (data.weather[0].main == "Mist") {
+    body_img.src = "image/mist.png";
+  } else if (data.weather[0].main == "Haze") {
+    body_img.src = "image/haze.png";
+  }
 
-    fetch(apiUrl)
-        .then(response => {
-            if (!response.ok) {
-                console.error(`HTTP error! Status: ${response.status}`);
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Extract relevant information from the forecast data
-            const forecastList = data.list.slice(0, 5); // Displaying the next 5 forecast entries for simplicity
-
-            // Display the forecast information
-            weatherInfo.innerHTML = '<h2>5-Day Weather Forecast:</h2>';
-            forecastList.forEach(entry => {
-                const timestamp = entry.dt_txt;
-                const temperature = Math.round(entry.main.temp - 273.15); // Convert Kelvin to Celsius
-                const description = entry.weather[0].description;
-
-                weatherInfo.innerHTML += `<p>${timestamp}: ${temperature}°C, ${description}</p>`;
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching weather forecast:', error);
-            weatherInfo.innerHTML = `<p>Failed to fetch weather forecast. Error: ${error.message}</p>`;
-        });
+  // Display main body and detail sections
+  body_data.style.display = "flex";
+  deatil.style.display = "flex";
 }
+
+// Event listener for search button click
+serchbox.addEventListener("click", () => {
+  let cityIn = searchinput.value;
+  checkWeather(cityIn);
+});
